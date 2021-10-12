@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+#
+#   _________   _____ __  ________  ______       ____  _____
+#  /_  __/   | / ___// / / /  _/  |/  /   |     / __ \/ ___/
+#   / / / /| | \__ \/ /_/ // // /|_/ / /| |    / / / /\__ \ 
+#  / / / ___ |___/ / __  // // /  / / ___ |   / /_/ /___/ / 
+# /_/ /_/  |_/____/_/ /_/___/_/  /_/_/  |_|   \____//____/  
+#
+# NAME: TASHIMA OS
+# DESC: An installation and deployment script for Tashima's i3wm desktop.
+# WARNING: Run this script at your own risk.
+# DEPENDENCIES: dialog
+
+echo "  _________   _____ __  ________  ______       ____  _____"
+echo " /_  __/   | / ___// / / /  _/  |/  /   |     / __ \/ ___/"
+echo "  / / / /| | \__ \/ /_/ // // /|_/ / /| |    / / / /\__ \ "
+echo " / / / ___ |___/ / __  // // /  / / ___ |   / /_/ /___/ / "
+echo "/_/ /_/  |_/____/_/ /_/___/_/  /_/_/  |_|   \____//____/  "
+
+if [ "$(id -u)" = 0 ]; then
+    echo "##################################################################"
+    echo "This script MUST NOT be run as root user since it makes changes"
+    echo "to the \$HOME directory of the \$USER executing this script."
+    echo "The \$HOME directory of the root user is, of course, '/root'."
+    echo "We don't want to mess around in there. So run this script as a"
+    echo "normal user. You will be asked for a sudo password when necessary."
+    echo "##################################################################"
+    exit 1
+fi
+
+error() { \
+    clear; printf "ERROR:\\n%s\\n" "$1" >&2; exit 1;
+}
+
+echo "################################################################"
+echo "## Syncing the repos and installing 'dialog' if not installed ##"
+echo "################################################################"
+sudo pacman --noconfirm --needed -Sy dialog || error "Error syncing the repos."
+
+welcome() { \
+    dialog --colors --title "\Z7\ZbInstalling Tashima OS!" \
+    --msgbox "\Z4This is a script that will install my apps and configurations \
+                \\n\\n-Pedro Tashima" 16 60
+
+    dialog --colors --title "\Z7\ZbStay near your computer!" \
+    --yes-label "Continue" \
+    --no-label "Exit" \
+    --yesno "\Z4This script is not allowed to be run as root, \
+            but you will be asked to enter your sudo password at various points during this installation. \
+            This is to give PACMAN the necessary permissions to install the software. \
+            So stay near the computer." 8 60
+}
+
+welcome || error "User choose to exit."
+
+lastchance() { \
+    dialog --colors --title "\Z7\ZbInstalling Tashima OS!" \
+    --msgbox "\Z4WARNING! The Tashima OS installation script is currently in public beta testing. \
+    There are almost certainly errors in it; \
+    therefore, it is strongly recommended that you DO NOT install this on production machines. \
+    It is recommended that you try this out in either a virtual machine or on a test machine." 16 60
+
+    dialog --colors --title "\Z7\ZbAre You Sure You Want To Do This?" \
+    --yes-label "Begin Installation" \
+    --no-label "Exit" \
+    --yesno "\Z4Shall we begin installing Tashima OS?" 8 60 || { clear; exit 1; }
+}
+
+lastchance || error "User choose to exit."
+
+clear
+# Let's install each package listed in the pkglist.txt file.
+sudo pacman --needed -Sy - < pkglist.txt
+
+echo "################################################################"
+echo "##                 Creating projects folders                  ##"
+echo "################################################################"
+[ ! -d ~/projects ] && mkdir ~/projects
+[ ! -d ~/projects/personal ] && mkdir ~/projects/personal
+[ ! -d ~/projects/study ] && mkdir ~/projects/study
+[ ! -d ~/projects/work ] && mkdir ~/projects/work
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+yay -S snapd
+yay -S postman-bin
+yay -S visual-studio-code-bin
+yay -S telegram-desktop
+yay -S xorg-xbacklight
+yay -S flameshot-git
+sudo snap install brave
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+mkdir -p ~/.config/environment.d
+#echo "PATH=$PATH:/snap/bin\nXDG_DATA_DIRS=\"${XDG_DATA_DIRS:-/usr/local/share:/usr/share}:/var/lib/snapd/desktop\"" > ~/.config/environment.d/60-snap-icons-and-bin.conf
+
+echo "################################################################"
+echo "##     Copying Tashima OS configuration files into \$HOME     ##"
+echo "################################################################"
+[ ! -d ~/.config ] && mkdir ~/.config
+[ ! -d ~/.config/nvim ] && mkdir ~/.config/nvim
+\cp assets/i3/config ~/.config/i3/config
+\cp assets/.bashrc ~/.bashrc
+\cp assets/nvim/init.vim ~/.config/nvim/init.vim
+sudo cp -R assets/backgrounds /usr/share/endeavouros/backgrounds
+
+# Change all scripts in .local/bin to be executable.
+find $HOME/.local/bin -type f -print0 | xargs -0 chmod 775
+
