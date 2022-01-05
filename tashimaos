@@ -29,23 +29,23 @@ if [ "$(id -u)" = 0 ]; then
 fi
 
 error() { \
-    clear; printf "ERROR:\\n%s\\n" "$1" >&2; exit 1;
+    printf "ERROR:\\n%s\\n" "$1" >&2; exit 1;
 }
 
 echo "################################################################"
 echo "## Syncing the repos and installing 'dialog' if not installed ##"
 echo "################################################################"
-sudo pacman --noconfirm --needed -Sy dialog || error "Error syncing the repos."
+#sudo pacman --noconfirm --needed -Sy dialog || error "Error syncing the repos."
 
 welcome() { \
-    dialog --colors --title "\Z7\ZbInstalling Tashima OS!" \
-    --msgbox "\Z4This is a script that will install my apps and configurations \
+    dialog --colors --title "\Z1\ZbInstalling Tashima OS!" \
+    --msgbox "\Z3This script will install my apps and configurations in a EndeavourOS Atlantis Sway edition distro, you shouldn't run it on any other distro, as it will probably not work.\
                 \\n\\n-Pedro Tashima" 16 60
 
-    dialog --colors --title "\Z7\ZbStay near your computer!" \
+    dialog --colors --title "\Z1\ZbStay near your computer!" \
     --yes-label "Continue" \
     --no-label "Exit" \
-    --yesno "\Z4This script is not allowed to be run as root, \
+    --yesno "\Z3This script is not allowed to be run as root, \
             but you will be asked to enter your sudo password at various points during this installation. \
             This is to give PACMAN the necessary permissions to install the software. \
             So stay near the computer." 8 60
@@ -54,57 +54,92 @@ welcome() { \
 welcome || error "User choose to exit."
 
 lastchance() { \
-    dialog --colors --title "\Z7\ZbInstalling Tashima OS!" \
-    --msgbox "\Z4WARNING! The Tashima OS installation script is currently in public beta testing. \
+    dialog --colors --title "\Z1\ZbInstalling Tashima OS!" \
+    --msgbox "\Z3WARNING! The Tashima OS installation script is currently in public beta testing. \
     There are almost certainly errors in it; \
     therefore, it is strongly recommended that you DO NOT install this on production machines. \
     It is recommended that you try this out in either a virtual machine or on a test machine." 16 60
 
-    dialog --colors --title "\Z7\ZbAre You Sure You Want To Do This?" \
+    dialog --colors --title "\Z1\ZbAre You Sure You Want To Do This?" \
     --yes-label "Begin Installation" \
     --no-label "Exit" \
-    --yesno "\Z4Shall we begin installing Tashima OS?" 8 60 || { clear; exit 1; }
+    --yesno "\Z3Shall we begin installing Tashima OS?" 8 60 || { exit 1; }
 }
 
 lastchance || error "User choose to exit."
 
-clear
+echo "Adding user configurations to bashrc"
+cat assets/bashrc-user-configs-sway >> ~/.bashrc
+
 # Let's install each package listed in the pkglist.txt file.
-sudo pacman --needed -Sy - < pkglist.txt
+sudo pacman --needed --ask 4 -Sy - < pkglist.txt
+yay -Sy - < aur-pkglist.txt
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+bash <(curl https://raw.githubusercontent.com/Tashima42/pomo/main/install-pomo-sound.sh)
+curl https://raw.githubusercontent.com/Tashima42/pmsh/main/install.sh | bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 echo "################################################################"
 echo "##                 Creating projects folders                  ##"
 echo "################################################################"
-[ ! -d ~/projects ] && mkdir ~/projects
-[ ! -d ~/projects/personal ] && mkdir ~/projects/personal
-[ ! -d ~/projects/study ] && mkdir ~/projects/study
-[ ! -d ~/projects/work ] && mkdir ~/projects/work
+mkdir -p ~/projects
+mkdir -p ~/projects/personal
+mkdir -p ~/projects/study
+mkdir -p ~/projects/work
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-yay -S snapd
-yay -S postman-bin
-yay -S visual-studio-code-bin
-yay -S telegram-desktop
-yay -S xorg-xbacklight
-yay -S flameshot-git
-sudo snap install brave
-
-sudo groupadd docker
-sudo usermod -aG docker $USER
-newgrp docker
-mkdir -p ~/.config/environment.d
-#echo "PATH=$PATH:/snap/bin\nXDG_DATA_DIRS=\"${XDG_DATA_DIRS:-/usr/local/share:/usr/share}:/var/lib/snapd/desktop\"" > ~/.config/environment.d/60-snap-icons-and-bin.conf
+#sudo groupadd docker
+#sudo usermod -aG docker $USER
+#newgrp docker
+#mkdir -p ~/.config/environment.d
 
 echo "################################################################"
 echo "##     Copying Tashima OS configuration files into \$HOME     ##"
 echo "################################################################"
-[ ! -d ~/.config ] && mkdir ~/.config
-[ ! -d ~/.config/nvim ] && mkdir ~/.config/nvim
-\cp assets/i3/config ~/.config/i3/config
-\cp assets/.bashrc ~/.bashrc
+# nvim
+mkdir -p ~/.config/nvim
+mv ~/.config/nvim/init.vim ~/.config/nvim/init.vim.old
 \cp assets/nvim/init.vim ~/.config/nvim/init.vim
-sudo cp -R assets/backgrounds /usr/share/endeavouros/backgrounds
+mv ~/.config/nvim/coc-settings.json ~/.config/nvim/coc-settings.json.old
+\cp assets/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
+
+# Gesture scripts for touchpad shortcuts
+mkdir -p ~/.config/sway/scripts/gestures
+\cp -r assets/sway/scripts/gestures ~/.config/sway/scripts
+
+# sway configs
+\cp assets/sway/user-custom-configuration ~/.config/sway/config.d/user-custom-configuration
+
+# waybar configs
+mv ~/.config/waybar/config ~/.config/waybar/config.old
+\cp assets/waybar/config ~/.config/waybar/config
+mv ~/.config/waybar/style.css ~/.config/waybar/style.css.old
+\cp assets/waybar/style.css ~/.config/waybar/style.css
+
+# wofi configs
+mv ~/.config/wofi/style.css ~/.config/wofi/style.css.old
+\cp assets/wofi/style.css ~/.config/wofi/style.css
+
+echo "###############################"
+echo "##     Setting wallpapers    ##"
+echo "###############################"
+mv ~/.config/sway/sway.png ~/.config/sway/sway.png.old
+mv ~/.config/sway/swaylock.png ~/.config/sway/swaylock.png.old
+\cp assets/backgrounds/jotaro-disk.png ~/.config/sway/sway.png
+\cp assets/backgrounds/jotaro-disk.png ~/.config/sway/swaylock.png
 
 # Change all scripts in .local/bin to be executable.
 find $HOME/.local/bin -type f -print0 | xargs -0 chmod 775
 
+echo "###################################"
+echo "## TashimaOS has been installed! ##"
+echo "###################################"
+
+while true; do
+    read -p "Do you want to reboot to get your TashimaOS? [Y/n] " yn
+    case $yn in
+        [Yy]* ) reboot;;
+        [Nn]* ) break;;
+        "" ) reboot;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
