@@ -107,7 +107,8 @@ mkdir -p ~/.config/sway/scripts/gestures
 \cp -r assets/sway/scripts/gestures ~/.config/sway/scripts
 
 # sway configs
-\cp assets/sway/user-custom-configuration ~/.config/sway/config.d/user-custom-configuration
+mv ~/.config/sway/config.d ~/.config/sway/config.d.old
+cp -r assets/sway/config.d ~/.config/sway/config.d
 
 # waybar configs
 mv ~/.config/waybar/config ~/.config/waybar/config.old

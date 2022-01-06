@@ -10,7 +10,6 @@ neovim
 shellcheck
 vim
 flatpak
-snapd
 pamixer
 playerctl
 telegram-desktop
