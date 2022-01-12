@@ -12,9 +12,14 @@
  /*
 Arc-Dark Color Scheme
 */
-
+/*
 @define-color highlight black ;
 @define-color base1  rgba(255,255,255,0.0) ;
+*/
+@define-color highlight #1A374D;
+@define-color base1 #406882;
+@define-color base-text #B1D0E0;
+@define-color base-icons #B1D0E0;
  
 @keyframes blink-warning {
     70% {
@@ -55,8 +60,8 @@ Arc-Dark Color Scheme
 /* The whole bar */
 #waybar {
     background: transparent;
-    /*color: #bebebe;*/
-    color: black;
+    color: @base-text;
+    opacity: 0.9;
     background-color: @base1;
     font-family: UbuntuMono;
     font-size: 12px;
@@ -89,8 +94,6 @@ Arc-Dark Color Scheme
  * -------------------------------------------------------------------------- */
 
 #tray {
-  border-radius: 10px;
-  background-color: rgba(145,12,179,0.8);
 }
  
 #battery {
@@ -148,7 +151,7 @@ Arc-Dark Color Scheme
 #mode {
     background: @highlight;
     border-bottom: 3px transparent;
-    color: black;
+    color: @base-icons;
     margin-left: 5px;
     padding:7;
   }
@@ -162,7 +165,6 @@ padding-top:6px;
 } 
 #pulseaudio.muted {
     border-radius: 10px;
-    background-color: rgba(245,81,119,0.8);
     color: @highlight; 
 }
  
@@ -178,7 +180,7 @@ padding-top:6px;
 font-size:13px;
 }
 #workspaces button {
-    color: black;
+    color: @base-icons;
     border-bottom: 3px solid transparent;
     margin-bottom: 0px;
     padding:0px;
@@ -192,8 +194,8 @@ font-size:13px;
   }
 
 #workspaces button.urgent {
-        border-color: black;
-        color: black;
+        border-color: @base-icons;
+        color: @base-icons;
 }
  
 #custom-power{
