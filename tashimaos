@@ -98,27 +98,27 @@ echo "################################################################"
 # nvim
 mkdir -p ~/.config/nvim
 mv ~/.config/nvim/init.vim ~/.config/nvim/init.vim.old
-\cp assets/nvim/init.vim ~/.config/nvim/init.vim
+\cp assets/.config/nvim/init.vim ~/.config/nvim/init.vim
 mv ~/.config/nvim/coc-settings.json ~/.config/nvim/coc-settings.json.old
-\cp assets/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
+\cp assets/.config/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
 
 # Gesture scripts for touchpad shortcuts
 mkdir -p ~/.config/sway/scripts/gestures
-\cp -r assets/sway/scripts/gestures ~/.config/sway/scripts
+\cp -r assets/.config/sway/scripts/gestures ~/.config/sway/scripts
 
 # sway configs
 mv ~/.config/sway/config.d ~/.config/sway/config.d.old
-cp -r assets/sway/config.d ~/.config/sway/config.d
+cp -r assets/.config/sway/config.d ~/.config/sway/config.d
 
 # waybar configs
 mv ~/.config/waybar/config ~/.config/waybar/config.old
-\cp assets/waybar/config ~/.config/waybar/config
+\cp assets/.config/waybar/config ~/.config/waybar/config
 mv ~/.config/waybar/style.css ~/.config/waybar/style.css.old
-\cp assets/waybar/style.css ~/.config/waybar/style.css
+\cp assets/.config/waybar/style.css ~/.config/waybar/style.css
 
 # wofi configs
 mv ~/.config/wofi/style.css ~/.config/wofi/style.css.old
-\cp assets/wofi/style.css ~/.config/wofi/style.css
+\cp assets/.config/wofi/style.css ~/.config/wofi/style.css
 
 echo "###############################"
 echo "##     Setting wallpapers    ##"
