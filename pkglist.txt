@@ -13,3 +13,4 @@ flatpak
 pamixer
 playerctl
 telegram-desktop
+ripgrep
