@@ -1,9 +1,9 @@
 # Assign workspaces
-assign [app_id="firefox"] 4
-for_window [app_id="firefox"] focus
+assign [class="Brave-browser"] 1
+for_window [class="Brave-browser"] focus
 
-assign [class="firefox"] 4
-for_window [class="firefox"] focus
+assign [class="Firefox"] 4
+for_window [class="Firefox"] focus
 
 assign [app_id=thunar] 3
 for_window [app_id=thunar] focus

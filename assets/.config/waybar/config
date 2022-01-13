@@ -13,20 +13,21 @@
 	],
  
 	"modules-center": [     
+	        "battery",
+	        "memory",
+	        "clock",
+	        "cpu",
+		"custom/headset_battery",
       	],
  
     	"modules-right": [
                 "network",
-	        "idle_inhibitor",
-	        "memory",
-	        "cpu",
+	        //"idle_inhibitor",
 	        "pulseaudio",
 	        //"custom/keyboard-layout",
-	        "battery",
                 //"custom/PBPbattery",
 	        "backlight#icon",
                 "backlight#value",
-	        "clock",
 	        "tray",
                 //"custom/weather",
 	        "custom/power",
@@ -49,7 +50,7 @@
       		"warning": 30,
       		"critical": 15
 	},
-    	"format": "{capacity}% {icon}",
+    	"format": "{icon} {capacity}%",
     	"format-charging": "{capacity}% ",
     	"format-plugged": "{capacity}% ",
     	 // "format-good": "", // An empty format will hide the module
@@ -62,6 +63,11 @@
     	"format": "{}",
 },
  
+"custom/headset_battery": {
+	"interval": "50",
+    	"exec": "~/.config/waybar/scripts/headset-battery.sh",
+	  "format": "{}",
+},
  
 "clock": {
       	"interval": 10,
@@ -72,7 +78,7 @@
  
 "cpu": {
         "interval": 5,
-        "format": "  {usage}% ({load})", // Icon: microchip
+        "format": " {usage}%", //({load}) Icon: microchip
         "states": {
         "warning": 70,
         "critical": 90,
@@ -103,7 +109,7 @@
  
 "network": {
       	"interval": 5,
-        "format-wifi": "  {essid} ({signalStrength}%)", // Icon: wifi
+        "format-wifi": "  {essid} ({signalStrength}%) ({ipaddr})", // Icon: wifi
         "format-ethernet": "  {ifname}: {ipaddr}/{cidr}", // Icon: ethernet
         "format-disconnected": "⚠  Disconnected",
         "tooltip-format": "{ifname}: {ipaddr}",
@@ -148,9 +154,9 @@
     	"format-source": "{volume}% ",
     	"format-source-muted": "",
     	"format-icons": {
-      		"headphone": "",
-      		"hands-free": "וֹ",
-      		"headset": "  ",
+      		"headphone": "hp",
+      		"hands-free": "hf",
+      		"headset": "hs",
       		"phone": "",
       		"portable": "",
       		"car": "",

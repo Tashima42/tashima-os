@@ -1,6 +1,6 @@
 #!/bin/bash
  
-entries="CopyArea Area Screen Output  Active Window"
+entries="Area Screen Output Active Window CopyArea "
  
 selected=$(printf '%s\n' $entries | wofi --style=$HOME/.config/wofi/style.widgets.css --conf=$HOME/.config/wofi/config.screenshot | awk '{print tolower($1)}')
  
