@@ -199,7 +199,7 @@ bindsym --whole-window --border $mod+shift+button5 resize grow width 5 px or 5 p
 #
 # App shortcuts
 #
-    bindsym $mod+n exec thunar
+    #bindsym $mod+n exec thunar
     #bindsym $mod+o exec firefox
 #
 # Screenshots
@@ -232,3 +232,8 @@ focus_follows_mouse yes
 # change keyboard layout
 bindsym $mod+Shift+i exec bash -c "swaymsg input \"type:keyboard\" xkb_layout br"
 bindsym $mod+Shift+o exec bash -c "swaymsg input \"type:keyboard\" xkb_layout us"
+
+# clipman clipboard
+exec wl-paste -t text --watch clipman store
+exec wl-paste -p -t text --watch clipman store -P --histpath="~/.local/share/clipman-primary.json"
+bindsym $mod+n exec clipman pick -t wofi

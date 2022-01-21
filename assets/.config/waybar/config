@@ -64,7 +64,7 @@
 },
  
 "custom/headset_battery": {
-	"interval": "50",
+	"interval": "5",
     	"exec": "~/.config/waybar/scripts/headset-battery.sh",
 	  "format": "{}",
 },
