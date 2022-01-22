@@ -6,3 +6,5 @@ function pgitarena() { cd "" ; }
 function pgitarena() { cd "/home/tashima/projects/personal/gitarena" ; }
 function tashimaos() { cd "/home/tashima/projects/personal/tashima-os" ; }
 function ptashimaos() { cd "/home/tashima/tashima-os" ; }
+function work() { cd "/home/tashima/projects/work" ; }
+function auth() { cd "/home/tashima/projects/work/toolbox/onboarding/exercise/authentication-service" ; }
