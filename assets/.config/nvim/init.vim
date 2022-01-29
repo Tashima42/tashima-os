@@ -15,6 +15,10 @@ set statusline+=%F
 
 autocmd FileType go setlocal shiftwidth=4 tabstop=4
 
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
 " trigger `autoread` when files changes on disk
   set autoread
   autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
@@ -179,6 +183,7 @@ Plug 'Mofiqul/dracula.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " post install (yarn install | npm install) then load plugin only for editing supported files
 
 call plug#end()

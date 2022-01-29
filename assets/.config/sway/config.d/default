@@ -237,3 +237,4 @@ bindsym $mod+Shift+o exec bash -c "swaymsg input \"type:keyboard\" xkb_layout us
 exec wl-paste -t text --watch clipman store
 exec wl-paste -p -t text --watch clipman store -P --histpath="~/.local/share/clipman-primary.json"
 bindsym $mod+n exec clipman pick -t wofi
+exec bash -c "bluetoothctl power on"
