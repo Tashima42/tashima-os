@@ -68,8 +68,6 @@ lastchance() { \
 
 lastchance || error "User choose to exit."
 
-echo "Adding user configurations to bashrc"
-cat assets/bashrc-user-configs-sway >> ~/.bashrc
 
 # Let's install each package listed in the pkglist.txt file.
 sudo pacman --needed --ask 4 -Sy - < pkglist.txt
@@ -77,6 +75,7 @@ yay -Sy - < aur-pkglist.txt
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 bash <(curl https://raw.githubusercontent.com/Tashima42/pomo/main/install-pomo-sound.sh)
 curl https://raw.githubusercontent.com/Tashima42/pmsh/main/install.sh | bash
+curl https://raw.githubusercontent.com/Tashima42/blum/main/blum.sh > ~/.local/bin/blum && sudo chmod +x ~/.local/bin/blum 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 echo "################################################################"

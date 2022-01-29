@@ -11,3 +11,4 @@ function auth() { cd "/home/tashima/projects/work/toolbox/onboarding/exercise/au
 function tbxauth() { cd "/home/tashima/projects/work/toolbox/onboarding/exercise/toolbox-oauth2" ; }
 function oauth() { cd "/home/tashima/projects/work/toolbox/onboarding/exercise/oauth-example" ; }
 function oauth2() { cd "/home/tashima/projects/work/toolbox/onboarding/exercise/oauth-example-2" ; }
+function pblum() { cd "/home/tashima/projects/personal/blum" ; }
