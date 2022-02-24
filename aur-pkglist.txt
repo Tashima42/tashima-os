@@ -1,3 +1,5 @@
 postman-bin
 visual-studio-code-bin
 snapd
+brave-bin
+google-chrome
