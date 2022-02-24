@@ -130,6 +130,11 @@ mv ~/.config/sway/swaylock.png ~/.config/sway/swaylock.png.old
 # Change all scripts in .local/bin to be executable.
 find $HOME/.local/bin -type f -print0 | xargs -0 chmod 775
 
+# Install nvim Plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+# Install user configurations in bashrc
 cat assets/bashrc-user-configs-sway >> $HOME/.bashrc
 
 echo "###################################"
